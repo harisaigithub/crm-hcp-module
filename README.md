@@ -137,18 +137,6 @@ VITE_API_BASE_URL=http://localhost:8000/api
 | POST | `/api/agent/chat` | Chat with the LangGraph agent |
 | DELETE | `/api/agent/chat/{session_id}` | Clear a chat session |
 
-## Demo Checklist
-
-For the 10-15 minute recording:
-
-1. Show the HCP list and select a doctor.
-2. Log an interaction through the structured form.
-3. Switch to chat mode and use the LangGraph agent.
-4. Demo all five tools: log, edit, profile lookup, follow-up, and sentiment review.
-5. Briefly explain the frontend, backend, database models, and LangGraph flow.
-
-For a fuller walkthrough of the user flow, data flow, and demo path, see `PROCESS_FLOW.md`.
-
 ## Screenshots
 
 ### Log Interaction Screen
