@@ -178,22 +178,7 @@ Stores each field interaction:
 - `created_at`
 - `updated_at`
 
-## 5. Demo Flow
-
-Use this order in the video:
-
-1. Show the HCP list.
-2. Collapse and expand the sidebar.
-3. Register a new HCP.
-4. Select that HCP.
-5. Log an interaction using the structured form.
-6. Show the Recent History update.
-7. Switch to chat mode.
-8. Ask the agent to get the HCP profile.
-9. Ask the agent to analyze sentiment.
-10. Ask the agent to schedule a follow-up.
-
-## 6. Important Notes
+## 5. Important Notes
 
 - The first HCP is selected automatically only for convenience.
 - New HCP registration is handled from the sidebar.
