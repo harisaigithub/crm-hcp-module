@@ -1,23 +1,25 @@
 # Python
 __pycache__/
 *.py[cod]
-*.env
 venv/
 .venv/
 *.egg-info/
 dist/
 build/
 
+# Env files — NEVER commit real keys
+.env
+.env.local
+backend/.env
+frontend/.env
+
 # Node
 node_modules/
 .next/
-dist/
-build/
-.env
-.env.local
 
 # DB
 *.sqlite3
+backend/.pgdata/
 
 # IDE
 .vscode/

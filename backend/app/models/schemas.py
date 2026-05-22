@@ -53,6 +53,8 @@ class InteractionOut(InteractionBase):
         from_attributes = True
 
 # Chat Schema
+
 class ChatMessage(BaseModel):
     message: str
-    session_id: Optional[str] = "default"
+    session_id: str | None = None
+    selected_hcp_id: int | None = None

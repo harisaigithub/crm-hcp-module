@@ -1,95 +1,157 @@
-# AI-First CRM – HCP Module
+# HCP CRM Module
 
-An AI-powered CRM system for Healthcare Professionals (HCPs), built for life science field representatives.
+A focused CRM module for Healthcare Professional (HCP) interaction logging, built for life science field representatives.
+
+## Assignment Focus
+
+The main screen is the **Log Interaction Screen**. It supports two everyday workflows for a field rep:
+
+- **Structured form mode** for fast, clean interaction logging.
+- **Conversational chat mode** for logging, editing, follow-ups, profile lookup, and sentiment review through a LangGraph agent.
+
+The backend uses FastAPI, PostgreSQL, LangGraph, and Groq's `llama-3.3-70b-versatile` model. The frontend uses React, Redux Toolkit, Vite, and the Google Inter font.
+
+## Key Features
+
+- Dual interaction logging modes: structured form and conversational AI chat
+- LangGraph-powered CRM copilot with 5 domain-specific tools
+- AI-generated interaction summarization and sentiment detection
+- Follow-up scheduling and interaction editing
+- Redux-based frontend state management
+- PostgreSQL relational persistence
+- Context-aware conversational workflow
+
+## Agent Tools
+
+The conversational workflow is orchestrated through a LangGraph StateGraph with tool-routing and conditional execution.
+
+
+The LangGraph agent exposes five sales-focused tools:
+
+1. `log_interaction` - logs a new HCP interaction, creates a concise summary, and detects sentiment.
+2. `edit_interaction` - updates an existing interaction and refreshes the summary when notes change.
+3. `get_hcp_profile` - retrieves HCP details and recent interaction history.
+4. `schedule_followup` - adds a follow-up date and note to an interaction.
+5. `analyze_sentiment` - reviews interaction tone and recommends a next step.
 
 ## Tech Stack
 
 | Layer | Technology |
-|-------|-----------|
-| Frontend | React + Redux + Google Inter |
-| Backend | Python + FastAPI |
-| AI Agent | LangGraph + Groq (gemma2-9b-it) |
+| --- | --- |
+| Frontend | React, Redux Toolkit, Vite, Google Inter |
+| Backend | Python, FastAPI |
+| Agent | LangGraph, LangChain, Groq `llama-3.3-70b-versatile` |
 | Database | PostgreSQL |
-
-## Features
-
-- **Log Interaction Screen** — Dual-mode: Structured Form OR Conversational Chat
-- **LangGraph Agent** with 5 sales tools:
-  1. `log_interaction` — Captures & summarizes HCP interactions via LLM
-  2. `edit_interaction` — Modifies existing interaction records
-  3. `get_hcp_profile` — Fetches HCP history and details
-  4. `schedule_followup` — Creates follow-up reminders
-  5. `sentiment_analysis` — Analyzes tone of interaction notes
 
 ## Project Structure
 
-```
+```text
 crm-hcp-module/
-├── frontend/         # React + Redux app
-│   ├── src/
-│   │   ├── components/
-│   │   ├── store/
-│   │   └── pages/
-│   └── package.json
-├── backend/          # FastAPI + LangGraph
-│   ├── app/
-│   │   ├── api/
-│   │   ├── agent/
-│   │   ├── models/
-│   │   └── db/
-│   ├── requirements.txt
-│   └── main.py
-└── README.md
+|-- frontend/
+|   |-- src/
+|   |   |-- features/
+|   |   |-- services/
+|   |   |-- App.jsx
+|   |   |-- main.jsx
+|   |   |-- store.js
+|   |   `-- styles.css
+|   |-- .env.example
+|   |-- index.html
+|   |-- package.json
+|   `-- vite.config.js
+|-- backend/
+|   |-- app/
+|   |   |-- agent/
+|   |   |-- api/
+|   |   |-- db/
+|   |   `-- models/
+|   |-- .env.example
+|   |-- requirements.txt
+|   |-- seed.py
+|   `-- main.py
+`-- README.md
 ```
 
-## Getting Started
+## Prerequisites
 
-### Prerequisites
 - Node.js 18+
 - Python 3.11+
 - PostgreSQL
-- Groq API Key
+- Groq API key
 
-### Backend Setup
+## Backend Setup
 
 ```bash
 cd backend
 python -m venv venv
-source venv/bin/activate      # Windows: venv\Scripts\activate
+venv\Scripts\activate
 pip install -r requirements.txt
+copy .env.example .env
+```
 
-# Create .env file
-cp .env.example .env
-# Add your GROQ_API_KEY and DATABASE_URL
+Update `backend/.env`:
 
+```env
+GROQ_API_KEY=your_groq_api_key_here
+DATABASE_URL=postgresql://postgres@localhost:5432/crm_hcp
+```
+
+Create tables and seed sample HCPs:
+
+```bash
+cd backend
+"C:\Program Files\PostgreSQL\18\bin\pg_ctl.exe" -D ".pgdata" -l ".pgdata\server.log" start
+python seed.py
 uvicorn main:app --reload
 ```
 
-### Frontend Setup
+The API runs at `http://localhost:8000`.
+
+## Frontend Setup
 
 ```bash
 cd frontend
 npm install
-npm start
+npm run dev
 ```
 
-### Environment Variables
+The app runs at `http://localhost:5173`.
 
-**backend/.env**
-```
-GROQ_API_KEY=your_groq_api_key_here
-DATABASE_URL=postgresql://user:password@localhost:5432/crm_hcp
+To point the frontend at another API URL, create `frontend/.env`:
+
+```env
+VITE_API_BASE_URL=http://localhost:8000/api
 ```
 
 ## API Endpoints
 
 | Method | Endpoint | Description |
-|--------|----------|-------------|
+| --- | --- | --- |
 | GET | `/api/hcps` | List all HCPs |
-| GET | `/api/hcps/{id}` | Get HCP profile |
-| POST | `/api/interactions` | Log new interaction |
-| PATCH | `/api/interactions/{id}` | Edit interaction |
-| POST | `/api/agent/chat` | Chat with LangGraph agent |
+| GET | `/api/hcps/{id}` | Get one HCP profile |
+| POST | `/api/hcps` | Create an HCP |
+| GET | `/api/interactions` | List interactions, optionally filtered by `hcp_id` |
+| POST | `/api/interactions` | Log a new interaction |
+| PATCH | `/api/interactions/{id}` | Edit an interaction |
+| DELETE | `/api/interactions/{id}` | Delete an interaction |
+| POST | `/api/agent/chat` | Chat with the LangGraph agent |
+| DELETE | `/api/agent/chat/{session_id}` | Clear a chat session |
 
-## License
-MIT
+## Demo Checklist
+
+For the 10-15 minute recording:
+
+1. Show the HCP list and select a doctor.
+2. Log an interaction through the structured form.
+3. Switch to chat mode and use the LangGraph agent.
+4. Demo all five tools: log, edit, profile lookup, follow-up, and sentiment review.
+5. Briefly explain the frontend, backend, database models, and LangGraph flow.
+
+For a fuller walkthrough of the user flow, data flow, and demo path, see `PROCESS_FLOW.md`.
+
+## Screenshots
+
+### Log Interaction Screen
+
+### Conversational AI Agent
+

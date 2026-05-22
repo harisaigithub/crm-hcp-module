@@ -2,7 +2,8 @@ from pydantic_settings import BaseSettings
 
 class Settings(BaseSettings):
     GROQ_API_KEY: str
-    DATABASE_URL: str = "postgresql://postgres:password@localhost:5432/crm_hcp"
+    GROQ_MODEL: str = "llama-3.3-70b-versatile"
+    DATABASE_URL: str = "postgresql://postgres@localhost:5432/crm_hcp"
 
     class Config:
         env_file = ".env"
