@@ -138,8 +138,11 @@ VITE_API_BASE_URL=http://localhost:8000/api
 | DELETE | `/api/agent/chat/{session_id}` | Clear a chat session |
 
 ## Screenshots
+<img width="354" height="637" alt="Screenshot 2026-05-25 005548" src="https://github.com/user-attachments/assets/fa2a575f-75f0-4e0c-93a7-c57f4b305d03" />
 
 ### Log Interaction Screen
+<img width="1919" height="871" alt="Screenshot 2026-05-25 005607" src="https://github.com/user-attachments/assets/969c7f41-f6fa-4f1d-8d22-d5328107e59e" />
 
 ### Conversational AI Agent
+<img width="1882" height="860" alt="Screenshot 2026-05-25 005625" src="https://github.com/user-attachments/assets/c01fdf35-dfbe-44c3-a981-18aec54882e6" />
 
